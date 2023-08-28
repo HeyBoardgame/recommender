@@ -1,15 +1,12 @@
-import pickle
-import os
-
 from sqlalchemy.orm import Session
 
 from src.schemas.response import RecommendSchema
 from src.repositories import boardgame, rating
+from src.util import load_pickled_model
 
 
 class RecommenderService:
     _instance = None
-    _pickle_path = os.environ['PICKLE_PATH']
     _user_id_base = 218044
     _rec_n = 10
 
@@ -19,9 +16,7 @@ class RecommenderService:
         return cls._instance
 
     def __init__(self):
-        model_path = self._pickle_path
-        with open(model_path, 'rb') as f:
-            self.model = pickle.load(f)
+        self.model = load_pickled_model()
 
     def recommend_to_single(self, user_id: int, db: Session):
         rated_ids = rating.get_rated_board_games(db, user_id)
