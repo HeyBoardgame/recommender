@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from mangum import Mangum
 
 from src.routers import recommender
 
@@ -14,3 +15,5 @@ def start_app():
 
 
 app = start_app()
+
+handler = Mangum(app)
