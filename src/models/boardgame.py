@@ -15,3 +15,5 @@ class BoardGame(Base):
     player_max = Column(Integer)
     player_min = Column(Integer)
     weight = Column(Float)
+    bgg_id_index = Column(Integer)
+    weight_index = Column(Integer)
