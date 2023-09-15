@@ -6,4 +6,4 @@ bin/*
 lib/*
 .Python
 pyvenv.cfg
-**.pkl
+share/*
