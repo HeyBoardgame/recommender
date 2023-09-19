@@ -34,8 +34,6 @@ deploy:
   stage: deploy
   services:
     - docker:24.0.4-dind
-  tags:
-    - deployment
   script:
     - aws lambda update-function-code
       --function-name hey-board-game-lambda
