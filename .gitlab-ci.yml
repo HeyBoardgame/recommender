@@ -20,10 +20,10 @@ publish:
   services:
     - docker:24.0.4-dind
   script:
+    - docker build -t $TAG_LATEST .
     - aws ecr batch-delete-image
       --repository-name $APP_NAME
       --image-ids imageTag=latest
-    - docker build -t $TAG_LATEST .
     - docker push $TAG_LATEST
   only:
     - develop
@@ -40,8 +40,5 @@ deploy:
     - aws lambda update-function-code
       --function-name hey-board-game-lambda
       --image-uri $TAG_LATEST
-    - aws ecr batch-delete-image
-      --repository-name $APP_NAME
-      --image-ids imageTag=latest
   only:
     - main

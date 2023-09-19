@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, BigInteger
+from sqlalchemy.orm import relationship
 
 from src.database import Base
 
@@ -17,3 +18,5 @@ class BoardGame(Base):
     weight = Column(Float)
     bgg_id_index = Column(Integer)
     weight_index = Column(Integer)
+
+    genres = relationship('GenreOfBoardGame', back_populates='board_game')
