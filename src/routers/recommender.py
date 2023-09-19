@@ -10,7 +10,7 @@ router = APIRouter(prefix='/recommends', tags=['recommenders'])
 recommender_service = RecommenderService()
 
 
-@router.get('', response_model=RecommendationResponse)
+@router.post('', response_model=RecommendationResponse)
 async def recommend_by_genre(request: RecWithGenreRequest, db: Session = Depends(get_db)):
     predictions = recommender_service.recommend_by_genre(request.user_id, request.genre_id, db)
     return RecommendationResponse(result=predictions)
