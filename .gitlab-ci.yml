@@ -36,7 +36,7 @@ deploy:
     - docker:24.0.4-dind
   script:
     - aws lambda update-function-code
-      --function-name hey-board-game-lambda
+      --function-name heyboardgame-lambda
       --image-uri $TAG_LATEST
   only:
     - main
