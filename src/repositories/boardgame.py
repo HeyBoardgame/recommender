@@ -11,8 +11,11 @@ def get_unrated_board_games_by_genre(db: Session, rated_ids: list[int], genre_id
             .all())
 
 
-def get_unrated_board_games_of_group(db: Session, rated_ids: list[int]):
+def get_unrated_board_games_of_group(db: Session, rated_ids: list[int], num_member: int):
     return (db.query(BoardGame.board_game_id, BoardGame.bgg_id_index, BoardGame.weight_index)
-            .filter(BoardGame.board_game_id.notin_(rated_ids))
+            .filter(BoardGame.board_game_id.notin_(rated_ids),
+                    BoardGame.player_min <= num_member,
+                    BoardGame.player_max >= num_member
+                    )
             .all())
 

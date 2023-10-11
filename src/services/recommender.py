@@ -33,13 +33,14 @@ class RecommenderService:
         return recommended_list
 
     def recommend_for_group(self, member_ids: list[int], seed: int, db: Session):
+        num_member = len(member_ids)
         group_rated_ids = [ids[0] for ids in rating.get_group_rated_board_games(db, member_ids)]
-        board_game_candidates = boardgame.get_unrated_board_games_of_group(db, group_rated_ids)
+        board_game_candidates = boardgame.get_unrated_board_games_of_group(db, group_rated_ids, num_member)
 
         input_tensor = process_group_input(member_ids, board_game_candidates)
 
         predictions = self.model(input_tensor)
-        group_recommendable = get_group_recommendable_items(board_game_candidates, predictions, len(member_ids))
+        group_recommendable = get_group_recommendable_items(board_game_candidates, predictions, num_member)
 
         recommendation_count_dict = defaultdict(int)
         for recommendable in group_recommendable:
