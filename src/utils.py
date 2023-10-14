@@ -40,6 +40,14 @@ def process_model_input(user_id, board_games):
     return input_tensor
 
 
+def process_group_input(member_ids, board_games):
+    input_tensor = process_model_input(member_ids[0], board_games)
+    for member_id in member_ids[1:]:
+        input_tensor = torch.cat([input_tensor, process_model_input(member_id, board_games)], dim=0)
+
+    return input_tensor
+
+
 def get_recommendable_items(board_games, predictions):
     binary_predictions = torch.round(predictions)
     one_indices = (binary_predictions == 1).nonzero().squeeze().tolist()
@@ -49,3 +57,16 @@ def get_recommendable_items(board_games, predictions):
         recommendable.append(board_games[idx][0])
 
     return recommendable
+
+
+def get_group_recommendable_items(board_games, predictions, num_member):
+    num_item = len(board_games)
+    member_predictions = []
+    for i in range(num_member):
+        member_predictions.append(predictions[i * num_item:i * num_item + num_item])
+
+    group_recommendable = []
+    for prediction in member_predictions:
+        group_recommendable.append(get_recommendable_items(board_games, prediction))
+
+    return group_recommendable
