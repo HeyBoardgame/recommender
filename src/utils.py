@@ -11,7 +11,7 @@ MODEL_PATH = os.environ['MODEL_PATH']
 
 
 def load_fm_model():
-    num_feats = 230159
+    num_feats = 230162
     model = FactorizationMachineModel(num_feats, embed_dim=64, sigmoid=True)
     loaded_model_path = '/tmp/fm_model.pth'
 
@@ -29,10 +29,8 @@ def load_fm_model():
     return model
 
 
-def process_model_input(user_id, board_games):
-    user_idx_offset = 12115
+def process_model_input(user_idx, board_games):
     weight_idx_offset = 12110
-    user_idx = user_id + user_idx_offset
     input_data = [(bgg_id_idx, weight_idx + weight_idx_offset, user_idx)
                   for bgg_id, bgg_id_idx, weight_idx in board_games]
     input_tensor = torch.tensor(input_data)
