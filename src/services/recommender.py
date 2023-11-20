@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from sqlalchemy.orm import Session
 
-from src.repositories import boardgame, rating
+from src.repositories import boardgame, rating, user
 from src.utils import *
 
 
@@ -45,6 +45,7 @@ class RecommenderService:
     def recommend_by_genre(self, user_id: int, genre_id: int, db: Session):
         rated_ids = [ids[0] for ids in rating.get_rated_board_games(db, user_id)]
         boardgame_with_genre = boardgame.get_unrated_board_games_by_genre(db, rated_ids, genre_id)
+        user_id = user.get_user_index(db, user_id)
         input_tensor = process_model_input(user_id, boardgame_with_genre)
 
         predictions = self.model(input_tensor)
@@ -59,6 +60,9 @@ class RecommenderService:
         num_member = len(member_ids)
         group_rated_ids = [ids[0] for ids in rating.get_group_rated_board_games(db, member_ids)]
         board_game_candidates = boardgame.get_unrated_board_games_of_group(db, group_rated_ids, num_member)
+
+        member_ids = user.get_group_user_index(db, member_ids)
+        num_member = len(member_ids)
         input_tensor = process_group_input(member_ids, board_game_candidates)
 
         predictions = self.model(input_tensor)
