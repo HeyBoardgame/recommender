@@ -8,11 +8,11 @@ ACCESS_KEY = os.environ['S3_ACCESS_KEY']
 SECRET_KEY = os.environ['S3_SECRET_KEY']
 BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 MODEL_PATH = os.environ['MODEL_PATH']
+MODEL_NUM_FEATS = os.environ['MODEL_NUM_FEATS']
 
 
 def load_fm_model():
-    num_feats = 230162
-    model = FactorizationMachineModel(num_feats, embed_dim=64, sigmoid=True)
+    model = FactorizationMachineModel(int(MODEL_NUM_FEATS), embed_dim=64, sigmoid=True)
     loaded_model_path = '/tmp/fm_model.pth'
 
     s3 = boto3.client(
