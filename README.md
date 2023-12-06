@@ -1,92 +1,44 @@
-# YeobogeRecommender
+# 여보게 추천 API v1
 
+## 🚩 Table of Contents
 
+- [About The Model](#-about-the-model)
+- [Tech Stack](#-tech-stack)
 
-## Getting started
+## 💡 About The Model
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Factorization Machine
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+<table>
+<tr>
+<td>
+    여보게의 추천 모델은 Factorization Machine(FM)을 기반으로 구현 되었습니다.
+</td>
+</tr>
+</table>
 
-## Add your files
+> Factorization Machine(FM)은 classification, regression, ranking이 가능한 general predictor이며, 특히 추천 시스템에서 대표적인 알고리즘으로 사용되고 있다. FM은 매우 희소한 데이터에서도 정확히 모델 파라미터를 추정할 수 있으며, 선형 시간으로 학습이 가능한 장점을 지니고 있다. 이러한 특성으로 인해 FM은 현실에서 나타나는 추천 문제에서 이상적인 결과를 낼 수 있다. 기존 Matrix Factorization(MF)과 달리 사용자와 아이템에 대한 여러 메타 데이터를 포함한 feature vector를 통해 사용자과 아이템 간의 관계를 표현한다. 
+> <br>References. [Towards Data Science](https://towardsdatascience.com/factorization-machines-for-item-recommendation-with-implicit-feedback-data-5655a7c749db#_edn1)
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Model Development & Train
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/yeoboge/yeobogerecommender.git
-git branch -M main
-git push -uf origin main
-```
+[Google Colab](https://colab.research.google.com/drive/1IE0RJLiKQkDomUnRu3wzoR09N3o8e6OB?usp=sharing)
 
-## Integrate with your tools
+### API URL
+https://iqan6y95ml.execute-api.ap-northeast-2.amazonaws.com/v1
 
-- [ ] [Set up project integrations](https://gitlab.com/yeoboge/yeobogerecommender/-/settings/integrations)
+|    기능     |      End Point      |                 Request Body                  |                                                설명                                                |
+|:---------:|:-------------------:|:---------------------------------------------:|:------------------------------------------------------------------------------------------------:|
+| 장르별 개인 추천 |    `/recommends`    |  ``` { "user_id": int, "genre_id": int } ```  |             `user_id`의 사용자가 `genre_id`를 가진 보드게임 중 모델이 예측한 10개의 추천 보드게임 id 목록을 생성합니다.             |
+|   그룹 추천   | `/recommends/group` | ``` { "members": list[int], "seed": int } ``` | `members`에 해당하는 사용자들 별로 각각 선호할 것으로 예상되는 보드게임 목록을 생성한 뒤 가장 많은 인원의 목록에서 나타난 보드게임 id로 추천 목록을 구성합니다. |
 
-## Collaborate with your team
+## 🌟 Tech Stack
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+### Environment
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white"> <img src="https://img.shields.io/badge/google colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white"> <img src="https://img.shields.io/badge/pycharm-000000?style=for-the-badge&logo=pycharm&logoColor=white">
 
-## Test and Deploy
+### Development
+<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white"> <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
 
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### DevOps
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/gitlab cicd-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white">
