@@ -24,6 +24,8 @@
 
 [Google Colab](https://colab.research.google.com/drive/1IE0RJLiKQkDomUnRu3wzoR09N3o8e6OB?usp=sharing)
 
+### API Spec
+
 |    기능     |      End Point      |                 Request Body                  |                                                설명                                                |
 |:---------:|:-------------------:|:---------------------------------------------:|:------------------------------------------------------------------------------------------------:|
 | 장르별 개인 추천 |    `/recommends`    |  ``` { "user_id": int, "genre_id": int } ```  |             `user_id`의 사용자에 대해 `genre_id`를 가진 보드게임 중 모델이 예측한 10개의 추천 보드게임 id 목록을 생성합니다.             |
